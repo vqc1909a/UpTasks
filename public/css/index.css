@@ -1,0 +1,9 @@
+.header{
+     min-height: 10vh;
+}
+.sidebar, .main{
+     min-height: 90vh;
+}
+.signup, .signin, .signup .row, .signin .row, .restablecer .row{
+     min-height: 90vh;
+}

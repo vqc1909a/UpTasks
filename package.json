@@ -1,0 +1,54 @@
+{
+  "name": "uptasks",
+  "version": "1.0.0",
+  "description": "Proyecto UpTasks con Node y  MVC",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./app.js",
+    "dev": "nodemon ./app.js",
+    "watch": "webpack --w --mode development",
+    "desarrollo": "concurrently \"npm run dev\" \"npm run watch\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vqc1909a/UpTasks.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vqc1909a/UpTasks/issues"
+  },
+  "homepage": "https://github.com/vqc1909a/UpTasks#readme",
+  "dependencies": {
+    "axios": "^0.20.0",
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
+    "concurrently": "^5.3.0",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "express-validator": "^6.6.1",
+    "html-to-text": "^5.1.1",
+    "juice": "^7.0.0",
+    "mysql2": "^2.2.5",
+    "nodemailer": "^6.4.13",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "pug": "^3.0.0",
+    "sequelize": "^6.3.5",
+    "shortid": "^2.2.15",
+    "slug": "^3.3.5",
+    "sweetalert2": "^10.3.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
+    "babel-loader": "^8.1.0",
+    "babel-polyfill": "^6.26.0",
+    "nodemon": "^2.0.4",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12"
+  }
+}

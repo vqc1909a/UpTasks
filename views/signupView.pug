@@ -1,0 +1,49 @@
+include partials/mixins
+<!DOCTYPE html>
+html(lang="en")
+     head
+          include partials/headView
+     body
+         +header("Aplicación de Tareas")
+         main
+               section.signup
+                    .container
+                         .row.justify-content-center.align-items-center
+                              .col-lg-6.col-sm-8.col-10.card.card-body.bg-light
+                                   h4.text-center.font-weight-bolder.text-primary.mb-4 OBTENER UNA CUENTA 
+                                   form(action="/signup", method="POST")
+                                        if error
+                                             .alert.alert-danger= error
+                                        .form-group.d-flex.align-items-center
+                                             .col-2
+                                                  label(for="name").font-weight-bolder.text-black Nombre
+                                             .col-10
+                                                  input(type="text", name="name", placeholder="Tu Nombre", value=body && body.name).form-control
+
+                                        .form-group.d-flex.align-items-center
+                                             .col-2
+                                                  label(for="email").font-weight-bolder.text-black Email
+                                             .col-10
+                                                  input(type="text", name="email", placeholder="Tu Email", value=body && body.email).form-control
+
+                                        .form-group.d-flex.align-items-center
+                                             .col-2
+                                                  label(for="password").font-weight-bolder.text-black Password
+                                             .col-10
+                                                  input(type="password", name="password", placeholder="Tu Password", value=body && body.password).form-control
+                                        
+                                        .form-group.d-flex.align-items-center
+                                             .col-2
+                                                  label(for="confirm").font-weight-bolder.text-black Confirmar Password
+                                             .col-10
+                                                  input(type="password", name="confirm", placeholder="Confirmar Password", value=body && body.confirm).form-control
+
+                                        button(type="submit").btn.btn-primary.btn-lg.btn-block Registrarse
+
+                                   a(href="/signin").d-inline-block.text-primary.mt-3 Iniciar Sesión
+
+
+                                   
+
+
+

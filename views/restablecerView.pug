@@ -1,0 +1,22 @@
+include partials/mixins
+<!DOCTYPE html>
+html(lang="en")
+     head
+         include partials/headView
+     body
+          +header("Aplicación de Tareas")
+          section.restablecer
+               .container
+                    .row.justify-content-center.align-items-center
+                         .col-10.col-md-8.col-lg-6
+                              form(action="/reestablecer", method="POST").card-body.bg-light
+                                   if error
+                                        .alert.alert-danger= error
+                                   p.lead.text-center.text-white.mb-4.text-uppercase Agrega tu e-mail para reestablecer la contraseña
+                                   .form-group.d-flex.align-items-center.justify-content-center
+                                        .col-2
+                                             label(for="email") E-mail:
+                                        .col-10
+                                             input(type="text" name="email" placeholder="Tu Email" class="form-control", value=body && body.email)
+                                   button(type="submit").btn.btn-lg.btn-primary.btn-block Reestablecer Password
+                                   a(href="/signin").d-inline-block.mt-3 Iniciar Sesión 

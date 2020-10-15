@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+html(lang="en")
+     head
+          include partials/headView
+     body
+          header.header
+               nav.navbar.navbar-expand-md.navbar-dark.bg-primary.py-3
+                    .container-fluid
+                         a(href="/").navbar-brand
+                              h1(style="font-size: 25px").font-weight-bolder.m-0 UpTask - Administrador de Proyectos
+                         button.navbar-toggler(data-toggle="collapse" data-target="#navbarCollapse")
+                              i.navbar-toggler-icon
+                         #navbarCollapse.navbar-collapse.collapse
+                              ul.navbar-nav.ml-auto
+                                   li.nav-item
+                                        a(href="/logout" style="font-size: 15px").nav-link.text-white.text-uppercase Cerrar Sesión
+          .contenido-principal.d-flex
+               aside.sidebar.col-3.bg-primary
+                    .button-nuevo-proyecto.card-body.text-center.mt-4
+                         a(href="/nuevo-proyecto").btn.btn-warning.btn-lg.btn-block.d-flex.justify-content-around.align-items-center Nuevo Proyecto
+                              <i class="fas fa-plus"></i>
+                    
+                    //- .form-nuevo-proyecto
+                    //-      .card-body
+                    //-           form(action="")
+                    //-                .form-group
+                    //-                     input(type="text", placeholder="Nombre Proyecto").form-control
+                    //-                button.btn.btn-dark.btn-block Agregar Proyecto
+                    .proyectos.py-4
+                         h3.text-center Proyectos
+                         if proyectos.length === 0
+                              p.text-center.lead.text-white.my-3 No tienes ningún proyecto agregado
+                         else
+                              ul.list-group.list-group-flush.my-3
+                                   each proyecto in proyectos
+                                        li.list-group-item.bg-transparent.border-bottom.border-white    
+                                             a(href=`/proyectos/${proyecto.url}`).text-white= proyecto.name
+               main.main.col-9
+                    block contenido
+                    //- pre= vardump(proyectos)
+
+
+          script(src="https://code.jquery.com/jquery-3.5.1.js", integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=",
+		crossorigin="anonymous")
+          script(src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js", integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN", crossorigin="anonymous")
+          script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js", integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV",crossorigin="anonymous")
+          script(src="/dist/bundle.js")
+          script $('#year').text(new Date().getFullYear())

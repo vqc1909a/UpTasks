@@ -1,0 +1,16 @@
+extends layoutsView
+block contenido
+     section.nuevo_proyecto.py-5
+          .container
+               h2.display-4.text-center= nombrepagina
+               .row.my-5.justify-content-center
+                    form(action=proyecto ? `/proyectos/${proyecto.url}/edit` : "/nuevo-proyecto", method="POST").col-lg-6.col-sm-8.col-10
+                         if error
+                              .alert.alert-danger= error                
+                         .form-group
+                              label(for="name").font-weight-bolder.text-uppercase Nombre Proyecto:
+                              input(type="text", name="name", placeholder="Nombre Proyecto", id="name", value= proyecto && proyecto.name).form-control.form-control-lg
+                         button(type="submit").btn.btn-warning.btn-lg #{proyecto ? "EDITAR" : "AGREGAR"}
+                         
+
+          
