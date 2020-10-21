@@ -48,16 +48,23 @@ app.use((req, res, next) => {
 app.use(cookieParser());
 
 //! Session nos permite navegar entre distintas paginas sin vovernos a autenticasr
-app.use(session({
+const sess = {
    //!Te ayuda a firmar el cookie
    secret: "secret",
    //!Mantener la sesion viva
    resave: false,
    saveUninitialized: false,
    cookie: {
-     //    maxAge: 60000
+        maxAge: 3600000
    }
-}))
+}
+
+if (app.get('env') === 'production') {
+  app.set('trust proxy', 1) // trust first proxy
+  sess.cookie.secure = true // serve secure cookies
+}
+
+app.use(session(sess))
 
 app.use(passport.initialize());
 app.use(passport.session()); 
@@ -82,4 +89,3 @@ app.use('/', verifyAuthentication.redirectContent, async (req, res) => {
 app.listen(port, () => {
      console.log(`Server run on port ${port}`);
 })
-

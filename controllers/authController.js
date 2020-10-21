@@ -76,7 +76,7 @@ exports.registrarse = async (req, res, next) => {
           const user = await User.build(req.body);
           await user.save();
 
-          const confirmarUrl = `http://${req.headers.host}/confirmar/${user.email}`
+          const confirmarUrl = `${req.protocol}://${req.headers.host}/confirmar/${user.email}`
           await enviarEmail({
                correo: user.email,
                asunto: "Confirmar Cuenta",
@@ -150,8 +150,7 @@ exports.generarToken = async (req, res) => {
 
 
           //!Url de reset
-          const resetUrl = `http://${req.headers.host}/reestablecer/${user.token}`;
-
+          const resetUrl = `${req.protocol}://${req.headers.host}/reestablecer/${user.token}`;
           //Enviar email
           await enviarEmail({
                correo: user.email,
