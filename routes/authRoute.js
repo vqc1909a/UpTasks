@@ -36,4 +36,16 @@ Router.get('/auth/google/callback', passport.authenticate('google', {
      failureFlash: true,
      badRequestMessage: "Ambos campos son obligatorios"
 }));
+
+
+//Auth with Facebook
+Router.get('/auth/facebook', passport.authenticate('facebook'));
+
+//Facebook auth Callback
+Router.get('/auth/facebook/callback', passport.authenticate('facebook', {
+     successRedirect: '/',
+     failureRedirect: '/signin',
+     failureFlash: true,
+     badRequestMessage: "Ambos campos son obligatorios"
+}))
 module.exports = Router;

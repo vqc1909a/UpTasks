@@ -3,3 +3,5 @@ block contenido
      .intro.py-5
           .container
                h2.text-center.display-4 Hola #{user.name}
+               .profile.py-3.d-flex.justify-content-center
+                    img(src=user.image ? user.image : '/profile.png', alt="profile", width="200", height="200")

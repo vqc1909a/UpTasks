@@ -12,6 +12,9 @@ const User = sequelize.define('User', {
      googleId: {
           type: DataTypes.STRING,
      },
+     facebookId: {
+          type: DataTypes.STRING,
+     },
      name: {
           type: DataTypes.STRING,
           allowNull: false,
@@ -25,6 +28,9 @@ const User = sequelize.define('User', {
      activo: {
           type: DataTypes.INTEGER,
           defaultValue: 0
+     },
+     image: {
+          type: DataTypes.STRING
      },
      token: DataTypes.STRING,
      expiracion: DataTypes.DATE
