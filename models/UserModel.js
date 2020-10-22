@@ -9,18 +9,18 @@ const User = sequelize.define('User', {
           primaryKey: true,
           autoIncrement: true
      },
+     googleId: {
+          type: DataTypes.STRING,
+     },
      name: {
           type: DataTypes.STRING,
           allowNull: false,
      },
      email: {
           type: DataTypes.STRING,
-          allowNull: false,
-          unique: true
      },
      password: {
           type: DataTypes.STRING,
-          allowNull: false
      },
      activo: {
           type: DataTypes.INTEGER,
@@ -32,8 +32,10 @@ const User = sequelize.define('User', {
 {
      hooks: {
           beforeCreate(user) {
-               const hash = bcrypt.hashSync(user.password, 10);
-               user.password = hash;
+               if(user.password){
+                    const hash = bcrypt.hashSync(user.password, 10);
+                    user.password = hash;
+               }
           }
      }
 })

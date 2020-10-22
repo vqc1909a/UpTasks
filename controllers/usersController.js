@@ -57,7 +57,6 @@ exports.formrestablecerpassword = async (req, res) => {
           })
      }catch(err){
           console.log(err.message);
-
           return res.render("restablecerPasswordView", {
                nombrepagina: "Reestablecer Contraseña",
                error: "Hubo un error"

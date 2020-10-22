@@ -28,6 +28,10 @@ html(lang="en")
                                              .col-10
                                                   input(type="password", name="password", placeholder="Tu Password", value=body && body.password).form-control
                                         button(type="submit").btn.btn-primary.btn-lg.btn-block Iniciar Sesión
+                                   a(href="/auth/google").btn.btn-danger.btn-block.btn-lg.d-flex.align-items-center.justify-content-center.my-2
+                                        i(class="fab fa-google").mx-2
+                                        span.mx-2 Loguearse con Google
+                                        
 
                                    .d-flex
                                         a(href="/signup").d-inline-block.text-primary.mt-3 Registrarse

@@ -4,7 +4,6 @@ const authController = require('../controllers/authController');
 const authValidate = require('../validations/authValidate');
 const passport = require('passport');
 
-
 Router.post('/signin', authValidate.loguearse, authController.loguearse, passport.authenticate('local', {
      successRedirect: '/',
      failureRedirect: '/signin',
@@ -12,7 +11,7 @@ Router.post('/signin', authValidate.loguearse, authController.loguearse, passpor
      badRequestMessage: "Ambos campos son obligatorios"
 }));
 
-//!Esto era en caso de que al momento de registrarme ingrese diretamente a la aplicacion, pero en otras ocasiones peude hacerlo mas seguro para verificar que ese gamil exista en el mundo real, para eso le enviamos un correo para que confirme su cuenta
+//!Esto era en caso de que al momento de registrarme ingrese diretamente a la aplicacion, pero en otras ocasiones puede hacerlo mas seguro para verificar que ese gamil exista en el mundo real, para eso le enviamos un correo para que confirme su cuenta
 // Router.post('/signup', authValidate.registrarse, authController.registrarse, passport.authenticate('local', {
 //      successRedirect: '/',
 //      failureRedirect: '/signup',
@@ -27,4 +26,14 @@ Router.get('/logout', authController.logout);
 Router.post('/reestablecer', authValidate.generarToken, authController.generarToken);
 Router.post('/reestablecer/:token', authValidate.actualizarPassword, authController.actualizarPassword);
 
+//Auth with Google
+Router.get('/auth/google', passport.authenticate('google', { scope: ['profile'] }));
+
+//Google auth callback
+Router.get('/auth/google/callback', passport.authenticate('google', { 
+     successRedirect: '/',
+     failureRedirect: '/signin',
+     failureFlash: true,
+     badRequestMessage: "Ambos campos son obligatorios"
+}));
 module.exports = Router;
