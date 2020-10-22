@@ -8,6 +8,8 @@ const bodyParser = require('body-parser');
 const {connectDB, createTables} = require('./config/db');
 const helpers = require('./helpers');
 const Proyecto = require('./models/ProyectoModel');
+const User = require('./models/UserModel');
+
 
 
 const cookieParser = require("cookie-parser");
@@ -25,6 +27,7 @@ const port = process.env.PORT || 4000;
 connectDB();
 
 //Crear todas las tablas
+User.sync();
 createTables();
 
 //Establecer el tipo de vista
