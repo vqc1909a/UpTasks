@@ -8,12 +8,12 @@ const bodyParser = require('body-parser');
 const {connectDB, createTables} = require('./config/db');
 const helpers = require('./helpers');
 const Proyecto = require('./models/ProyectoModel');
-const User = require('./models/UserModel');
 
 
 
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+const MemoryStore = require('memorystore')(session)
 const passport = require("./config/passport");
 const flash = require("connect-flash");
 const verifyAuthentication = require('./middlewares/verifyAuthentication');
@@ -27,7 +27,6 @@ const port = process.env.PORT || 4000;
 connectDB();
 
 //Crear todas las tablas
-User.sync();
 createTables();
 
 //Establecer el tipo de vista
@@ -57,6 +56,9 @@ const sess = {
    //!Mantener la sesion viva
    resave: false,
    saveUninitialized: false,
+   store: new MemoryStore({
+      checkPeriod: 3600000 
+   }),
    cookie: {
         maxAge: 3600000
    }
