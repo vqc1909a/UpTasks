@@ -1,24 +1,18 @@
 const express = require('express');
-const proyectosRoute = require('./routes/proyectosRoute');
-const tareasRoute = require('./routes/tareasRoute');
-const usersRoute = require('./routes/usersRoute');
-const authRoute = require('./routes/authRoute');
 const path = require('path');
 const bodyParser = require('body-parser');
 const {connectDB, createTables} = require('./config/db');
+
 const helpers = require('./helpers');
 const Proyecto = require('./models/ProyectoModel');
 const User = require('./models/UserModel');
-
-
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const MemoryStore = require('memorystore')(session)
 const passport = require("./config/passport");
-const flash = require("connect-flash");
 const verifyAuthentication = require('./middlewares/verifyAuthentication');
 
-
+const flash = require("connect-flash");
 //Crear el servidor
 const app = express();
 const port = process.env.PORT || 4000;
@@ -27,8 +21,8 @@ const port = process.env.PORT || 4000;
 connectDB();
 
 //Crear todas las tablas
-User.sync();
 createTables();
+
 
 //Establecer el tipo de vista
 app.set('view engine', 'pug');
@@ -36,11 +30,11 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, './views'));
 
 
-//Middlewares
+//!Middlewares
 app.use(express.json({extended: true}));
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.static('public'));
-app.use(flash());
+app.use(flash());   
 
 app.use((req, res, next) => {
      res.locals.vardump = helpers.vardump
@@ -70,23 +64,24 @@ if (app.get('env') === 'production') {
   sess.cookie.secure = true // serve secure cookies
 }
 
-app.use(session(sess))
-
+app.use(session(sess));
 app.use(passport.initialize());
 app.use(passport.session()); 
 
 //Rutas
-app.use('/', proyectosRoute);
-app.use('/', tareasRoute);
-app.use('/', usersRoute);
-app.use('/', authRoute);
+app.use('/', require('./routes/proyectosRoute'));
+app.use('/', require('./routes/tareasRoute'));
+app.use('/', require('./routes/usersRoute'));
+app.use('/', require('./routes/authRoute'));
 
 
-//Page not found
+//! Page not found - Siempre va despues de la rutas que tienen contenido, y sino viene aca abajo
 app.use('/', verifyAuthentication.redirectContent, async (req, res) => {
-     const proyectos = await Proyecto.findAll();
+     const user = await User.findOne({where: {id: req.user.id}});
+     const proyectos = await Proyecto.findAll({where: {UserId: req.user.id}});
      res.render('pagenotfoundView', {
           nombrepagina: "Page Not Found",
+          user,
           proyectos
      })
 })

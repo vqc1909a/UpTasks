@@ -5,7 +5,6 @@ const FacebookStrategy  = require("passport-facebook").Strategy
 
 require('dotenv').config({path: "variables.env"});
 
-
 const User = require("../models/UserModel");
 passport.use(new LocalStrategy(
      //!Tienes que especificar los campos de usuario y contraseña
@@ -40,7 +39,8 @@ passport.use(new LocalStrategy(
 
 
 
-passport.use(new GoogleStrategy({
+passport.use(new GoogleStrategy(
+  {
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: "/auth/google/callback"

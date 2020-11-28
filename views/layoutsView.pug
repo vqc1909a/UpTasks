@@ -37,7 +37,7 @@ html(lang="en")
                                              a(href=`/proyectos/${proyecto.url}`).text-white= proyecto.name
                main.main.col-9
                     block contenido
-                    //- pre= vardump(proyectos)
+                    //- pre= vardump(tareas)
 
 
           script(src="https://code.jquery.com/jquery-3.5.1.js", integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=",
@@ -46,3 +46,4 @@ html(lang="en")
           script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js", integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV",crossorigin="anonymous")
           script(src="/dist/bundle.js")
           script $('#year').text(new Date().getFullYear())
+

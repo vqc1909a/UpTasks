@@ -47,7 +47,7 @@ const User = sequelize.define('User', {
 })
 
 User.prototype.verificarPassword = function(password){
-     return bcrypt.compareSync(password,  this.password);
+     return bcrypt.compareSync(password, this.password);
 }
 
 User.hasMany(Proyecto);

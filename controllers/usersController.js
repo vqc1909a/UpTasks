@@ -2,11 +2,11 @@ const User = require('../models/UserModel');
 // const bcrypt = require('bcrypt');
 
 exports.formsignup = (req, res) => {
-      const flash = req.flash();
-      let error;
-      if (Object.keys(flash).length !== 0) {
-           error = flash.error[0];
-      }
+     const flash = req.flash();
+     let error;
+     if(Object.keys(flash).length !== 0){
+          error = flash.error[0];
+     }
      return res.render('signupView', {
           nombrepagina: "Signup - UpTasks",
           error
@@ -57,10 +57,7 @@ exports.formrestablecerpassword = async (req, res) => {
           })
      }catch(err){
           console.log(err.message);
-          return res.render("restablecerPasswordView", {
-               nombrepagina: "Reestablecer Contraseña",
-               error: "Hubo un error"
-          })
+          req.flash('error', 'Hubo un error, vuelve a reestablecer tu password')
+          return res.redirect("/reestablecer")
      }
-
 }

@@ -55,7 +55,6 @@ const eliminarTarea = (id, li) => {
                            data,
                           'success'
                      )
-                    calcularProgressbar();
                }).catch(err => {
                     const {data} = err.response
                     console.log(data);

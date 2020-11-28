@@ -3,6 +3,7 @@ const User = require("../models/UserModel");
 const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const {Op} = require('sequelize');
+
 const enviarEmail = require('../handlers/emailHandler');
 
 exports.loguearse = async (req, res, next) => {
@@ -68,15 +69,15 @@ exports.registrarse = async (req, res, next) => {
           if (email) {
                return res.render("signupView", {
                     nombrepagina: "Signup - UpTasks",
-                    error: "El email ya ha sido registrado",
+                    error: "El email ya ha sido registrado ó Email sin confirmar",
                     body: req.body
                })
           }
 
-          const user = await User.build(req.body);
-          await user.save();
+          const user = await User.create(req.body);
 
-          const confirmarUrl = `${req.protocol}://${req.headers.host}/confirmar/${user.email}`
+          const confirmarUrl = `${req.protocol}://${req.headers.host}/confirmar/${user.email}`;
+
           await enviarEmail({
                correo: user.email,
                asunto: "Confirmar Cuenta",
@@ -84,7 +85,7 @@ exports.registrarse = async (req, res, next) => {
                url: {confirmarUrl}
           })
           req.flash('success', 'Confirma tu cuenta en tu correo para poder iniciar sesión');
-          res.redirect('/signin');
+          return res.redirect('/signin');
      } catch (err) {
           console.log(err.message);
           return res.render("signupView", {
@@ -121,7 +122,7 @@ exports.confirmarCuenta = async (req, res) => {
 
 exports.logout = (req, res) => {
      req.session.destroy(() => {
-          res.redirect('/signin');
+          return res.redirect('/signin');
      })
 }
 
@@ -138,13 +139,16 @@ exports.generarToken = async (req, res) => {
                error
           })
      }
+
      try{
           const user = await User.findOne({where: {email: req.body.email}})
+
           if(!user){
-               req.flash('error', "Cuenta no registrada");
+               req.flash('error', "Cuenta no registrada o cuenta sin confirmar");
                return res.redirect('/reestablecer')
-          }          
-          user.token = crypto.randomBytes(20).toString('hex');;
+          }    
+
+          user.token = crypto.randomBytes(20).toString('hex');
           user.expiracion = Date.now() + 3600000 /* milisegundos  */
           await user.save();
 

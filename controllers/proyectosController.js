@@ -19,10 +19,16 @@ exports.proyectos =  async (req, res, next) => {
 }
 exports.formularionuevoproyecto = async (req, res, next) => {
      try{
+          const flash = req.flash();
+          let error;
+          if(flash.error){
+               error = flash.error[0];
+          }
           const proyectos = await Proyecto.findAll({where: {UserId: req.user.id}});
           return res.render('nuevoproyectoView', {
                nombrepagina: "Nuevo Proyecto",
-               proyectos
+               proyectos,
+               error
           });
      }catch(err){
           console.log(err.message);     
@@ -38,12 +44,8 @@ exports.agregarProyecto = async (req, res, next) => {
                error = errors.array()[0].msg;
           }
           if(error){
-               const proyectos = await Proyecto.findAll({where: {UserId: req.user.id}});
-               return res.render('nuevoproyectoView', {
-                         nombrepagina: "Nuevo Proyecto",
-                         proyectos,
-                         error
-               })
+               req.flash("error", error);
+               return res.redirect('/nuevo-proyecto');
           }else{
                const proyecto = await Proyecto.build(req.body);
                proyecto.UserId = req.user.id;
@@ -52,13 +54,12 @@ exports.agregarProyecto = async (req, res, next) => {
           }    
      }catch(err){
           console.log(err.message);
-          return res.render('nuevoproyectoView', {
-                    nombrepagina: "Nuevo Proyecto",
-                    proyectos,
-                    error: "Hubo un error"
-               })
+          req.flash('error', 'Hubo un error');
+          return res.redirect('/nuevo-proyecto');
      }
 }
+
+
 exports.obtenerTareasProyecto = async (req, res, next) => {
      try{
           const proyectos = await Proyecto.findAll({where: {UserId: req.user.id}});
@@ -125,10 +126,7 @@ exports.editarProyecto = async (req, res, next) => {
                     error:errors.array()[0].msg
                })
           }else{
-               await Proyecto.update(
-                    {name: req.body.name},
-                    {where: {id: proyecto.id}}
-               )
+               await Proyecto.update({name: req.body.name}, {where: {id: proyecto.id}})
                return res.redirect("/");
           }
      } catch (err) {

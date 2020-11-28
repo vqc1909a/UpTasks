@@ -45,6 +45,7 @@ exports.actualizarEstado = async (req, res) => {
           await tarea.save();
           return res.status(200).send("Tarea Actualizada");
      }catch(err){
+          console.log(err.message);
           return res.status(404).send(err.message);
      }
 }
