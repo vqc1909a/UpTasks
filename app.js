@@ -1,14 +1,15 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-const {connectDB, createTables} = require('./config/db');
-
+const {connectDB} = require('./config/db');
 const helpers = require('./helpers');
 const Proyecto = require('./models/ProyectoModel');
 const User = require('./models/UserModel');
+
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const MemoryStore = require('memorystore')(session)
+
 const passport = require("./config/passport");
 const verifyAuthentication = require('./middlewares/verifyAuthentication');
 
@@ -17,11 +18,11 @@ const flash = require("connect-flash");
 const app = express();
 const port = process.env.PORT || 4000;
 
-//Conectar DB
+//Conectar DB  
 connectDB();
 
 //Crear todas las tablas
-createTables();
+//createTables();
 
 
 //Establecer el tipo de vista
@@ -36,15 +37,11 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.static('public'));
 app.use(flash());   
 
-app.use((req, res, next) => {
-     res.locals.vardump = helpers.vardump
-     next(); 
-})
 
 //! Autenticar usuarios
 app.use(cookieParser());
 
-//! Session nos permite navegar entre distintas paginas sin vovernos a autenticasr
+//! Session nos permite navegar entre distintas paginas sin volvernos a autenticar
 const sess = {
    //!Te ayuda a firmar el cookie
    secret: "secret",
@@ -65,8 +62,15 @@ if (app.get('env') === 'production') {
 }
 
 app.use(session(sess));
-app.use(passport.initialize());
+
+app.use(passport.initialize());    
 app.use(passport.session()); 
+
+
+app.use((req, res, next) => {
+     res.locals.vardump = helpers.vardump
+     next(); 
+})
 
 //Rutas
 app.use('/', require('./routes/proyectosRoute'));

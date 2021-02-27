@@ -4,7 +4,7 @@ const {validationResult} = require('express-validator');
 
 exports.agregarTareaProyecto = async (req, res, next) => {
      try {
-          const proyectos = await Proyecto.findAll();
+          const proyectos = await Proyecto.findAll({where: {UserId: req.user.id}});
           const proyecto = await Proyecto.findOne({
                where: {
                     url: req.params.url
@@ -21,7 +21,7 @@ exports.agregarTareaProyecto = async (req, res, next) => {
                          error: errors.array()[0].msg
                     })   
           } else {
-              const tarea =  await Tarea.build(req.body);
+              const tarea = await Tarea.build(req.body);
               tarea.ProyectoId = proyecto.id;
               await tarea.save();
               return res.redirect(`/proyectos/${proyecto.url}`)

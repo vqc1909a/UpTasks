@@ -49,7 +49,7 @@ const User = sequelize.define('User', {
 User.prototype.verificarPassword = function(password){
      return bcrypt.compareSync(password, this.password);
 }
-
+//Cuando pones este has many, automaticamente te cerea un campo por defecto de UserId en tu base de datos de Proyecto
 User.hasMany(Proyecto);
 
 module.exports = User;

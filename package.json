@@ -33,7 +33,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "express-validator": "^6.6.1",
-    "html-to-text": "^5.1.1",
+    "html-to-text": "^7.0.0",
     "juice": "^7.0.0",
     "memorystore": "^1.6.2",
     "mysql2": "^2.2.5",

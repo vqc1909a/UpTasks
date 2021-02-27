@@ -4,10 +4,10 @@ const sgTransport = require("nodemailer-sendgrid-transport");
 const pug = require('pug');
 
 //!Nos va a permitir agregar estilos lineales
-const juice = require('juice');
+const juice = require('juice');    
 
 //!Nos va crear una version de nuestro correo de html a puro texto
-const htmlToText = require("html-to-text");
+const { htmlToText } = require("html-to-text");
 
 const mailtrapconfig = require('../config/mailtrap');
 
@@ -45,9 +45,9 @@ const enviarEmail = async ({correo, asunto, archivo, url}) => {
                //!Asunto del mensaje
                subject: asunto, // Subject line
                //!Version texto plano del mensaje
-               text: htmlToText.fromString(html), // plain text body
+               text: htmlToText(html), // plain text body
                //!Version html mensaje
-               html, // html body
+               html // html body
           });
           console.log("Message sent: %s", info);
           console.log("Message sent: %s", info.messageId);

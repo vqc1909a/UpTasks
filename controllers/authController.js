@@ -141,7 +141,7 @@ exports.generarToken = async (req, res) => {
      }
 
      try{
-          const user = await User.findOne({where: {email: req.body.email}})
+          const user = await User.findOne({where: {email: req.body.email, activo: 1}})
 
           if(!user){
                req.flash('error', "Cuenta no registrada o cuenta sin confirmar");
@@ -191,7 +191,7 @@ exports.actualizarPassword = async (req, res) => {
      try{
           const user = await User.findOne({where: {token: req.params.token, expiracion: {[Op.gte]: Date.now()}}})
           if(!user){
-               req.flash('error', 'Usuario Inválido o Tiempo de Cambio de Password Sobrepasado');
+               req.flash('error', 'Tiempo de Cambio de Password Sobrepasado');
                res.redirect('/reestablecer');
           }
           if(req.body.password_nuevo !== req.body.confirm){

@@ -7,7 +7,7 @@ require('dotenv').config({path: "variables.env"});
 
 const User = require("../models/UserModel");
 passport.use(new LocalStrategy(
-     //!Tienes que especificar los campos de usuario y contraseña
+     //!Tienes que especificar los campos de tu formulario usuario y contraseña
      {
           usernameField: "email",
           passwordField: "password"
@@ -16,6 +16,9 @@ passport.use(new LocalStrategy(
      async (email, password, done) => {
           try{
                const user = await User.findOne({where: {email}})
+
+               // Cundo haces el logueo local, puede poner esto aqui o en el controlador, depende de ti ya, yo proefiero en el controlador por el req.body
+
                // if(!user){
                //     return done(null, false, {
                //          message: "Cuenta no registrada"
@@ -99,6 +102,7 @@ passport.use(new FacebookStrategy({
           //      //!Imagen
           //      image: profile.photos[0].value
           // }
+          console.log(profile);
           const newUser = {
                facebookId: profile.id,
                name: profile.name.givenName,

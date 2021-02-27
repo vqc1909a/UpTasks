@@ -3,13 +3,12 @@ const Proyecto = require('../models/ProyectoModel');
 const Tarea = require('../models/TareaModel');
 const {validationResult} = require('express-validator');
 
-exports.proyectos =  async (req, res, next) => {
+exports.proyectos = async (req, res, next) => {
      try{
-          const user = await User.findOne({where: {id: req.user.id}});
           const proyectos = await Proyecto.findAll({where: {UserId: req.user.id}});
           return res.render('indexView', {
                nombrepagina: "Proyectos",
-               user,
+               user: req.user,
                proyectos 
           });
      }catch(err){
@@ -92,10 +91,7 @@ exports.formularioeditproyecto = async (req, res, next) => {
           const proyectos = await Proyecto.findAll({where: {UserId: req.user.id}});
           const proyecto = await Proyecto.findOne({where: {url: req.params.url}});
           if(!proyecto){
-               return res.render('pagenotfoundView', {
-                    nombrepagina: "Page Not Found",
-                    proyectos
-               })
+               return next()
           }else{
                return res.render('nuevoproyectoView', {
                     nombrepagina: "Editar Proyecto",

@@ -20,10 +20,11 @@ const connectDB = async () => {
 
 const createTables = async () => {
      try{
-          await sequelize.sync();
+          await sequelize.sync({alter: true});
           console.log("Tablas creadas correctamente");
      }catch(err){
           console.log(err.message);
      }
 }
 module.exports = {connectDB, createTables, sequelize};
+     
