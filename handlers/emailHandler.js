@@ -1,34 +1,32 @@
 const nodemailer = require('nodemailer');
-const sgTransport = require("nodemailer-sendgrid-transport");
-// const sgMail = require("@sendgrid/mail");
 const pug = require('pug');
+const path = require('path');
+const {google} = require('googleapis');
 
 //!Nos va a permitir agregar estilos lineales
 const juice = require('juice');    
-
 //!Nos va crear una version de nuestro correo de html a puro texto
 const { htmlToText } = require("html-to-text");
 
-const mailtrapconfig = require('../config/mailtrap');
+// const mailtrapconfig = require('../config/mailtrap');
 
-const path = require('path');
+//!Crear mi cuenta de oAuth2Cliente de Gmail 
 
-// let transporter = nodemailer.createTransport(sgTransport({
-//      auth: {
-//         api_key: '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'
-//     }
-// }))
+const oAuth2Client = new google.auth.OAuth2(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET, process.env.GOOGLE_REDIRECT_URI) 
+oAuth2Client.setCredentials({refresh_token: process.env.GOOGLE_REFRESH_TOKEN})
 
-// sgMail.setApiKey("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");
+//!Configuracion con mailtrap
+// let transporter = nodemailer.createTransport({
+//     host: mailtrapconfig.host,
+//     port: mailtrapconfig.port,
+//     auth: {
+//       user: mailtrapconfig.user, 
+//       pass: mailtrapconfig.pass, 
+//     },
+// });
 
-let transporter = nodemailer.createTransport({
-    host: mailtrapconfig.host,
-    port: mailtrapconfig.port,
-    auth: {
-      user: mailtrapconfig.user, 
-      pass: mailtrapconfig.pass, 
-    },
-});
+
+
 
 
 const generarHtml = (archivo, opciones) => {
@@ -37,11 +35,25 @@ const generarHtml = (archivo, opciones) => {
 }
 
 const enviarEmail = async ({correo, asunto, archivo, url}) => {
+
+     //!configuracion con API GMAIL
+     const accessToken = await oAuth2Client.getAccessToken();
+     const transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+          type: 'OAuth2',
+          user: 'vqc1909a@gmail.com',
+          clientId: process.env.GOOGLE_CLIENT_ID,
+          clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+          refreshToken: process.env.GOOGLE_REFRESH_TOKEN,
+          accessToken: accessToken         
+          }
+     })
      const html = generarHtml(archivo, url);
      try{
           let info = await transporter.sendMail({
                to: correo, // list of receivers
-               from: 'vqc1909a@gmail.com', /* 'UpTask <no-reply@uptask.com>' */ // sender address
+               from: 'VQC1909A 😷 <vqc1909a@gmail.com>', /* 'UpTask <no-reply@uptask.com>' */ // sender address
                //!Asunto del mensaje
                subject: asunto, // Subject line
                //!Version texto plano del mensaje
