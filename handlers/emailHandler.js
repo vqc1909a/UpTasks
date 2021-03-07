@@ -17,6 +17,7 @@ oAuth2Client.setCredentials({refresh_token: process.env.GOOGLE_REFRESH_TOKEN})
 
 //!Configuracion con mailtrap
 // let transporter = nodemailer.createTransport({
+//     name: "cualquiernombre"
 //     host: mailtrapconfig.host,
 //     port: mailtrapconfig.port,
 //     auth: {
