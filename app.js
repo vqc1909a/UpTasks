@@ -64,7 +64,7 @@ if (app.get('env') === 'production') {
 app.use(session(sess));
 
 app.use(passport.initialize());    
-app.use(passport.session()); 
+app.use(passport.session());
 
 
 app.use((req, res, next) => {
