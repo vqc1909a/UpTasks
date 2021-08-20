@@ -19,11 +19,10 @@ const app = express();
 const port = process.env.PORT || 4000;
 
 //Conectar DB  
-connectDB();
-
+connectDB()
+.then(() => {
 //Crear todas las tablas
 //createTables();
-
 
 //Establecer el tipo de vista
 app.set('view engine', 'pug');
@@ -33,7 +32,7 @@ app.set('views', path.join(__dirname, './views'));
 
 //!Middlewares
 app.use(express.json({extended: true}));
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'));
 app.use(flash());   
 
@@ -43,22 +42,22 @@ app.use(cookieParser());
 
 //! Session nos permite navegar entre distintas paginas sin volvernos a autenticar
 const sess = {
-   //!Te ayuda a firmar el cookie
-   secret: "secret",
-   //!Mantener la sesion viva
-   resave: false,
-   saveUninitialized: false,
-   store: new MemoryStore({
-      checkPeriod: 3600000 
-   }),
-   cookie: {
-        maxAge: 3600000
-   }
+     //!Te ayuda a firmar el cookie
+     secret: "secret",
+     //!Mantener la sesion viva
+     resave: false,
+     saveUninitialized: false,
+     store: new MemoryStore({
+          checkPeriod: 3600000 
+     }),
+     cookie: {
+          maxAge: 3600000
+     }
 }
 
 if (app.get('env') === 'production') {
-  app.set('trust proxy', 1) // trust first proxy
-  sess.cookie.secure = true // serve secure cookies
+     app.set('trust proxy', 1) // trust first proxy
+     sess.cookie.secure = true // serve secure cookies
 }
 
 app.use(session(sess));
@@ -94,3 +93,6 @@ app.use('/', verifyAuthentication.redirectContent, async (req, res) => {
 app.listen(port, () => {
      console.log(`Server run on port ${port}`);
 })
+
+})
+

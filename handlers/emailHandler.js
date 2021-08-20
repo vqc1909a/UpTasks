@@ -26,10 +26,6 @@ oAuth2Client.setCredentials({refresh_token: process.env.GOOGLE_REFRESH_TOKEN})
 //     },
 // });
 
-
-
-
-
 const generarHtml = (archivo, opciones) => {
      const html = pug.renderFile(path.join(__dirname, `../views/emails/${archivo}.pug`), opciones);
      return juice(html);

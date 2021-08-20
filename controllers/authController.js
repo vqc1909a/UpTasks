@@ -140,9 +140,9 @@ exports.generarToken = async (req, res) => {
           })
      }
 
-     try{
+     try{  
           const user = await User.findOne({where: {email: req.body.email, activo: 1}})
-
+          console.log(user);
           if(!user){
                req.flash('error', "Cuenta no registrada o cuenta sin confirmar");
                return res.redirect('/reestablecer')
