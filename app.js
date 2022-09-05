@@ -29,6 +29,10 @@ app.set('view engine', 'pug');
 //Añadir la carpeta para las vistas
 app.set('views', path.join(__dirname, './views'));
 
+//! Habilitar Archivos Estáticos
+//!El express json no funciona para peticiones a través del html form action, para ello se usa de forma nativa el paquete body parser
+// app.use(bodyParser.urlencoded({extended: true}));
+// app.use(express.static(path.join(__dirname, "./src/public")));
 
 //!Middlewares
 app.use(express.json({extended: true}));
